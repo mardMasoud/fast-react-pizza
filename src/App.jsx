@@ -1,31 +1,45 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Error from "./ui/Error";
+import { Router, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./ui/Home";
-import Menu, { loader as loaderMenu } from "./features/menu/Menu";
-import Cart from "./features/cart/Cart";
-import Order , { loader as loaderOrder } from "./features/order/Order";
-import CreateOrder from "./features/order/CreateOrder";
 import AppLayout from "./ui/AppLayout";
+import Menu from "./features/menu/Menu";
+import Cart from "./features/cart/Cart";
+import CreateOrder from "./features/order/CreateOrder";
+import Order from "./features/order/Order";
+import { Loader as LoadeMenu } from "./features/menu/Menu";
+import{loader as orderLoader} from './features/order/Order'
 const router = createBrowserRouter([
     {
-        errorElement: <Error />,
         element: <AppLayout />,
-        children: [
-            { path: "/menu", element: <Menu />, loader: loaderMenu, errorElement: <Error /> },
-            { path: "/", element: <Home /> },
 
-            { path: "/cart", element: <Cart /> },
-            { path: "/order/:orderId", element: <Order  /> , loader: loaderOrder, errorElement: <Error />},
-            { path: "/order/new", element: <CreateOrder /> },
+        children: [
+            {
+                path: "menu",
+                element: <Menu />,
+                loader: LoadeMenu,
+            },
+            {
+                path: "order/:orderId",
+                element: <Order />,loader:orderLoader
+            },
+            {
+                path: "cart",
+                element: <Cart />,
+            },
+            {
+                path: "order/new",
+                element: <CreateOrder />,
+            },
+            {
+                path: "/",
+                element: <Home />,
+            },
+            
         ],
     },
 ]);
+
 function App() {
-    return (
-        <div>
-            <RouterProvider router={router} />
-        </div>
-    );
+    return <RouterProvider router={router} />;
 }
 
 export default App;
