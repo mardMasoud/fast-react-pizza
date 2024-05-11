@@ -70,7 +70,7 @@ function CreateOrder() {
         </div>
 
         <div>
-          <button>Order now</button>
+          <button className="bg-red-500">Order now</button>
         </div>
       </form>
     </div>
