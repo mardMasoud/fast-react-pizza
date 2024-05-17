@@ -1,4 +1,7 @@
 import { useState } from "react";
+import Button from "../../ui/Button";
+import { createOrder } from "../../services/apiRestaurant";
+import { Form, redirect, useNavigation } from "react-router-dom";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -38,28 +41,44 @@ function CreateOrder() {
     <div>
       <h2>Ready to order? Let's go!</h2>
 
-      <form>
+      <Form method="POST">
         <div>
           <label>First Name</label>
-          <input type="text" name="customer" required />
+          <input
+            className="input"
+            type="text"
+            name="customer"
+            required
+          />
         </div>
 
         <div>
           <label>Phone number</label>
           <div>
-            <input type="tel" name="phone" required />
+            <input
+              className="input"
+              type="tel"
+              name="phone"
+              required
+            />
           </div>
         </div>
 
         <div>
           <label>Address</label>
           <div>
-            <input type="text" name="address" required />
+            <input
+              className="input"
+              type="text"
+              name="address"
+              required
+            />
           </div>
         </div>
 
         <div>
           <input
+            className="h-6 w-6 accent-yellow-400 focus:ring-offset-2 focus: outline-none focus:ring focus:ring-yellow-400"
             type="checkbox"
             name="priority"
             id="priority"
@@ -68,13 +87,30 @@ function CreateOrder() {
           />
           <label htmlFor="priority">Want to yo give your order priority?</label>
         </div>
-
+        <input
+          name="cart"
+          type="hidden"
+          value={JSON.stringify(cart)}
+        />
         <div>
-          <button className="bg-red-500">Order now</button>
+          <Button type="primary">Order now</Button>
         </div>
-      </form>
+      </Form>
     </div>
   );
 }
+export async function action({ request }) {
+  // const newOrder = { ...cart };
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+  const order = {
+    ...data,
+    cart: JSON.parse(data.cart),
+    priority: data.priority === "on",
+  };
+  // console.log(order);
+  const newOrder = await createOrder(order);
 
+  return redirect(`/order/${newOrder.id}`);
+}
 export default CreateOrder;
