@@ -1,30 +1,36 @@
 import { useState } from "react";
 import Button from "../../ui/Button";
-
+import { updatName } from "./userSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 function CreateUser() {
   const [username, setUsername] = useState("");
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   function handleSubmit(e) {
     e.preventDefault();
+    dispatch(updatName(username));
+    setUsername("");
+    navigate("/menu");
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <p className="mb-4 text-sm md:text-base text-stone-600">
+      <p className="mb-4 text-sm text-stone-600 md:text-base">
         👋 Welcome! Please start by telling us your name:
       </p>
 
       <input
-        className="w-72 input mb-8"
         type="text"
         placeholder="Your full name"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
+        className="input mb-8 w-72"
       />
 
       {username !== "" && (
         <div>
-          <Button>Start ordering</Button>
+          <Button type="primary">Start ordering</Button>
         </div>
       )}
     </form>
