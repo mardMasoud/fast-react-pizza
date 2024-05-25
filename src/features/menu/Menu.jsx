@@ -11,7 +11,7 @@ function Menu() {
         <MenuItem
           pizza={pizza}
           key={pizza.id}
-          quantity={1}
+      added={false}
         />
       ))}
     </ul>

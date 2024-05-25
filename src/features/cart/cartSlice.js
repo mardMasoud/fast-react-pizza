@@ -8,7 +8,7 @@ const initialState = {
       name: "Mediterranean",
       quantity: 2,
       unitPrice: 16,
-      totalPrice: 32,
+      totalPrice: 32, added:false
     },
   ],
 };
@@ -27,10 +27,15 @@ export const cartSlice = createSlice({
       );
     },
     increase: (state, action) => {
-      state.cart[action.payload].quantity =
-        state.cart[action.payload].quantity + 1;
+   state.cart[state.cart.findIndex(item=>item.id===action.payload)].quantity+=1;
+    
+    },
+    decrease: (state, action) => {
+      state.cart[state.cart.findIndex(item=>item.id===action.payload)].quantity-=1;
     },
   },
 });
-export const { addToCart, deleteAtCart, increase } = cartSlice.actions;
+export const { addToCart, deleteAtCart, increase,decrease } = cartSlice.actions;
 export default cartSlice.reducer;
+
+export  const  getTotalCartPrice=(state)=>state.cart.cart.reduce((sum,item)=>sum+item.quantity,0)
