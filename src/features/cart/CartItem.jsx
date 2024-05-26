@@ -28,16 +28,14 @@ function CartItem({ item }) {
         <Button
           type="small"
           onClick={inCreaseQuantity}
-          bgColor="bg-green-500"
-          ringColor="ring-green-500"
+          
         >
           +
         </Button>
         <Button
           type="small"
           onClick={deCreaseQuantity}
-          bgColor="bg-red-500"
-          ringColor="ring-red-500"
+          
         >
           -
         </Button>

@@ -18,8 +18,7 @@ function MenuItem({ pizza }) {
       unitPrice,
       totalPrice: unitPrice * 1,
     };
-    console.log(newItem);
-    console.log("id:", id);
+   
     console.log(cart.findIndex((index) => index.id === id));
     if (cart.findIndex((index) => index.id === id) !== -1)
       dispatch(increase(id));
