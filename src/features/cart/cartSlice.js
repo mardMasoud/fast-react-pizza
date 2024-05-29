@@ -22,20 +22,26 @@ export const cartSlice = createSlice({
             item.totalPrice = item.quantity * item.unitPrice;
         },
         decrease: (state, action) => {
-          const item = state.cart.find((item) => item.id === action.payload);
-          item.quantity--;
-          item.totalPrice = item.quantity * item.unitPrice;
-        }
-      ,
-      clearAll:(state)=>{
-      state.cart=[]
-    }}
+            const item = state.cart.find((item) => item.id === action.payload);
+            if (item.quantity > 0) item.quantity--;
+            if (item.quantity === 0)
+                state.cart = state.cart.filter((stateItem) => stateItem.id !== action.payload);
+            item.totalPrice = item.quantity * item.unitPrice;
+        },
+        clearAll: (state) => {
+            state.cart = [];
+        },
+    },
 });
-export const { addToCart, deleteAtCart, increase, decrease,clearAll } = cartSlice.actions;
+export const { addToCart, deleteAtCart, increase, decrease, clearAll } = cartSlice.actions;
 export default cartSlice.reducer;
+
+export const getCart = (state) => state.cart.cart;
 
 export const getTotalCartPrice = (state) =>
     state.cart.cart.reduce((sum, item) => sum + item.quantity, 0);
-
+export function getCurrentQuantityById(id) {
+    return (state) => state.cart.cart?.find((item)=>item.id === id)?.quantity;
+}
 export const getSumCartPrice = (state) =>
     state.cart.cart.reduce((sum, item) => sum + item.totalPrice, 0);

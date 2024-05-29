@@ -3,44 +3,40 @@ import LinkButton from "../../ui/LinkButton";
 import Button from "../../ui/Button";
 import CartItem from "./CartItem";
 import { useDispatch, useSelector } from "react-redux";
-import { clearAll } from "./cartSlice";
-;
-
+import { clearAll, getCart } from "./cartSlice";
+import EmptyCart from "./EmptyCart";
 function Cart() {
-  const cart = useSelector((state) => state.cart.cart);
-  const userName = useSelector((state) => state.user.userName);
-  const dispatch = useDispatch()
-  function clearCart(){
-dispatch(clearAll())
-  }
-  console.log("cart", cart);
-  return (
-    <div className="px-4 py-3">
-      <LinkButton to="/menu">&larr; Back to menu</LinkButton>
+    const cart = useSelector(getCart);
+    const userName = useSelector((state) => state.user.userName);
+    const dispatch = useDispatch();
+    //   function clearCart(){
+    // dispatch(clearAll())
+    //   }
+    console.log("cart", cart);
+    if (!cart.length) return <EmptyCart />;
+    return (
+        <div className="px-4 py-3">
+            <LinkButton to="/menu">&larr; Back to menu</LinkButton>
 
-      <h2 className="mt-7 text-xl font-semibold">Your cart, {userName}</h2>
+            <h2 className="mt-7 text-xl font-semibold">Your cart, {userName}</h2>
 
-      <ul className="mt-3 divide-y divide-stone-200 border-b">
-        {cart.map((item) => (
-          <CartItem
-            item={item}
-            key={item.id}
-          />
-        ))}
-      </ul>
+            <ul className="mt-3 divide-y divide-stone-200 border-b">
+                {cart.map((item) => (
+                    <CartItem item={item} key={item.id} />
+                ))}
+            </ul>
 
-      <div className="mt-6 space-x-2">
-        <Button
-          to="/order/new"
-          type="primary"
-        >
-          Order pizzas
-        </Button>
+            <div className="mt-6 space-x-2">
+                <Button to="/order/new" type="primary">
+                    Order pizzas
+                </Button>
 
-        <Button type="secondary" onClick={clearCart}>Clear cart</Button>
-      </div>
-    </div>
-  );
+                <Button type="secondary" onClick={() => dispatch(clearAll())}>
+                    Clear cart
+                </Button>
+            </div>
+        </div>
+    );
 }
 
 export default Cart;

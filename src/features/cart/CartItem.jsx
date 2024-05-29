@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "../../ui/Button";
 import { formatCurrency } from "../../utils/helpers";
 import { decrease, deleteAtCart, increase } from "./cartSlice";
+import DeleteItem from "./DeleteItem";
 
 function CartItem({ item }) {
   const dispatch = useDispatch();
@@ -39,13 +40,8 @@ function CartItem({ item }) {
         >
           -
         </Button>
-        <Button
-          type="small"
-          onClick={deleteItem}
-          value={id}
-        >
-          Delete
-        </Button>
+      
+        <DeleteItem id={id} />
       </div>
     </li>
   );
