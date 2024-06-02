@@ -8,6 +8,7 @@ import {
   getCurrentQuantityById,
 } from "../cart/cartSlice";
 import DeleteItem from "../cart/DeleteItem";
+import UpdateItemQuantity from "../cart/UpdateItemQuantity";
 
 function MenuItem({ pizza }) {
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
@@ -47,6 +48,7 @@ function MenuItem({ pizza }) {
           {ingredients.join(", ")}
         </p>
         <div className="mt-auto flex items-center justify-between">
+         
           {!soldOut ? (
             <p className="text-sm">{formatCurrency(unitPrice)}</p>
           ) : (
@@ -54,9 +56,11 @@ function MenuItem({ pizza }) {
               Sold out
             </p>
           )}
-          {curruntQuantityById > 0 && <DeleteItem id={id} />}
+          {curruntQuantityById > 0 && <div className="flex gap-3"><UpdateItemQuantity id={id}/><DeleteItem id={id} /></div> }
           {soldOut || curruntQuantityById ? null : (
-            <div className="space-x-2">
+            <div >
+           
+
               <Button
                 type="small"
                 onClick={handleClick}
